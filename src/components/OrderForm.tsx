@@ -2,14 +2,14 @@
 
 import { useState, type FormEvent } from "react";
 import { getSupabase } from "@/lib/supabase";
-import { Loader2, CheckCircle, AlertTriangle } from "lucide-react";
+import { Loader2, CheckCircle, AlertTriangle, Send } from "lucide-react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 export default function OrderForm() {
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [producto, setProducto] = useState("Cono de 30 huevos");
+  const [producto, setProducto] = useState("Caja de 360 huevos");
   const [cantidad, setCantidad] = useState(1);
   const [direccion, setDireccion] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -36,49 +36,71 @@ export default function OrderForm() {
       setStatus("error");
     } else {
       setStatus("success");
-      // Reset form
       setNombre("");
       setTelefono("");
-      setProducto("Cono de 30 huevos");
+      setProducto("Caja de 360 huevos");
       setCantidad(1);
       setDireccion("");
     }
   }
 
   return (
-    <section id="pedidos" className="py-20 px-4 bg-white">
-      <div className="mx-auto max-w-xl">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-brown-900 mb-4">
-          Haz tu Pedido
-        </h2>
-        <p className="text-center text-brown-700 mb-10">
-          Llena el formulario y nos pondremos en contacto contigo para confirmar
-          tu pedido.
-        </p>
+    <section id="pedidos" className="py-24 md:py-32 px-6">
+      <div className="mx-auto max-w-lg">
+        {/* Section header */}
+        <div className="text-center mb-12">
+          <p className="text-sm font-semibold uppercase tracking-widest text-orange-500 mb-3">
+            Pedidos
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Haz tu pedido
+          </h2>
+          <p className="mt-3 text-base font-medium text-slate-500">
+            Llena el formulario y te contactaremos para confirmar.
+          </p>
+        </div>
 
         {/* Success message */}
         {status === "success" && (
-          <div className="mb-6 flex items-center gap-3 rounded-xl bg-green-50 border border-green-200 p-4 text-green-800">
-            <CheckCircle className="h-6 w-6 shrink-0" />
-            <p>¡Pedido enviado con éxito! Pronto te contactaremos. 🎉</p>
+          <div className="mb-8 flex items-start gap-3 rounded-2xl bg-emerald-50 p-5 ring-1 ring-emerald-100">
+            <CheckCircle className="h-5 w-5 text-emerald-600 mt-0.5 shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-emerald-900">
+                ¡Pedido enviado con éxito!
+              </p>
+              <p className="text-sm text-emerald-700 mt-1">
+                Nos pondremos en contacto contigo pronto. 🎉
+              </p>
+            </div>
           </div>
         )}
 
         {/* Error message */}
         {status === "error" && (
-          <div className="mb-6 flex items-center gap-3 rounded-xl bg-red-50 border border-red-200 p-4 text-red-800">
-            <AlertTriangle className="h-6 w-6 shrink-0" />
-            <p>Error al enviar el pedido: {errorMsg || "Inténtalo de nuevo."}</p>
+          <div className="mb-8 flex items-start gap-3 rounded-2xl bg-red-50 p-5 ring-1 ring-red-100">
+            <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-red-900">
+                Error al enviar el pedido
+              </p>
+              <p className="text-sm text-red-700 mt-1">
+                {errorMsg || "Algo salió mal. Inténtalo de nuevo."}
+              </p>
+            </div>
           </div>
         )}
 
+        {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="space-y-5 rounded-xl border border-egg-200 bg-egg-50 p-6 sm:p-8 shadow-sm"
+          className="space-y-5 rounded-3xl bg-white p-7 sm:p-9 shadow-xl shadow-slate-200/40 ring-1 ring-slate-100"
         >
           {/* Nombre */}
           <div>
-            <label htmlFor="nombre" className="block text-sm font-medium text-brown-800 mb-1">
+            <label
+              htmlFor="nombre"
+              className="block text-sm font-semibold text-slate-900 mb-2"
+            >
               Nombre completo
             </label>
             <input
@@ -88,13 +110,16 @@ export default function OrderForm() {
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               placeholder="Ej: Juan Pérez"
-              className="w-full rounded-lg border border-egg-300 bg-white px-4 py-2.5 text-brown-800 placeholder:text-brown-700/50 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200"
             />
           </div>
 
           {/* Teléfono */}
           <div>
-            <label htmlFor="telefono" className="block text-sm font-medium text-brown-800 mb-1">
+            <label
+              htmlFor="telefono"
+              className="block text-sm font-semibold text-slate-900 mb-2"
+            >
               Teléfono
             </label>
             <input
@@ -103,32 +128,36 @@ export default function OrderForm() {
               required
               value={telefono}
               onChange={(e) => setTelefono(e.target.value)}
-              placeholder="Ej: 3001234567"
-              className="w-full rounded-lg border border-egg-300 bg-white px-4 py-2.5 text-brown-800 placeholder:text-brown-700/50 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              placeholder="Ej: 33 1234 5678"
+              className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200"
             />
           </div>
 
           {/* Producto */}
           <div>
-            <label htmlFor="producto" className="block text-sm font-medium text-brown-800 mb-1">
+            <label
+              htmlFor="producto"
+              className="block text-sm font-semibold text-slate-900 mb-2"
+            >
               Producto
             </label>
             <select
               id="producto"
               value={producto}
               onChange={(e) => setProducto(e.target.value)}
-              className="w-full rounded-lg border border-egg-300 bg-white px-4 py-2.5 text-brown-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200 appearance-none"
             >
-              <option>Cono de 30 huevos</option>
-              <option>Docena de huevos</option>
-              <option>Medio cono (15 huevos)</option>
+              <option>Caja de 360 huevos</option>
             </select>
           </div>
 
           {/* Cantidad */}
           <div>
-            <label htmlFor="cantidad" className="block text-sm font-medium text-brown-800 mb-1">
-              Cantidad
+            <label
+              htmlFor="cantidad"
+              className="block text-sm font-semibold text-slate-900 mb-2"
+            >
+              Cantidad de cajas
             </label>
             <input
               id="cantidad"
@@ -137,13 +166,16 @@ export default function OrderForm() {
               required
               value={cantidad}
               onChange={(e) => setCantidad(Number(e.target.value))}
-              className="w-full rounded-lg border border-egg-300 bg-white px-4 py-2.5 text-brown-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200"
             />
           </div>
 
           {/* Dirección */}
           <div>
-            <label htmlFor="direccion" className="block text-sm font-medium text-brown-800 mb-1">
+            <label
+              htmlFor="direccion"
+              className="block text-sm font-semibold text-slate-900 mb-2"
+            >
               Dirección de entrega
             </label>
             <textarea
@@ -152,8 +184,8 @@ export default function OrderForm() {
               rows={3}
               value={direccion}
               onChange={(e) => setDireccion(e.target.value)}
-              placeholder="Ej: Calle 10 #25-30, Barrio Centro"
-              className="w-full rounded-lg border border-egg-300 bg-white px-4 py-2.5 text-brown-800 placeholder:text-brown-700/50 focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+              placeholder="Ej: Av. Vallarta #1234, Col. Americana"
+              className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200 resize-none"
             />
           </div>
 
@@ -161,7 +193,7 @@ export default function OrderForm() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-6 py-3 text-lg font-semibold text-white shadow-md hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            className="w-full flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:from-orange-600 hover:to-amber-600 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300"
           >
             {status === "loading" ? (
               <>
@@ -169,7 +201,10 @@ export default function OrderForm() {
                 Enviando...
               </>
             ) : (
-              "Enviar Pedido"
+              <>
+                Enviar pedido
+                <Send className="h-4 w-4" />
+              </>
             )}
           </button>
         </form>

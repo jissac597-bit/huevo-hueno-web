@@ -7,6 +7,7 @@ import Farm from "@/components/Farm";
 import Products from "@/components/Products";
 import OrderForm from "@/components/OrderForm";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <OrderForm />
       </main>
       <Footer />
+      <WhatsAppButton />
     </>
   );
 }

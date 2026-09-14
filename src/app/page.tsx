@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Benefits from "@/components/Benefits";
+import Gallery from "@/components/Gallery";
 import Farm from "@/components/Farm";
 import Products from "@/components/Products";
 import OrderForm from "@/components/OrderForm";
@@ -16,6 +17,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <Benefits />
+        <Gallery />
         <Farm />
         <Products />
         <OrderForm />

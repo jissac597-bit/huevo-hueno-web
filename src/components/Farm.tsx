@@ -55,10 +55,10 @@ export default function Farm() {
               cerca de ti
             </h2>
             <p className="mt-5 text-base md:text-lg font-medium text-slate-500 leading-relaxed">
-              Ubicados cerca del Parque Montenegro en Guadalajara, Jalisco,
-              nuestra granja es un espacio donde las gallinas Rhode Island viven
-              en libertad, respiran aire fresco y se alimentan de forma 100%
-              natural — sin químicos, sin pesticidas, sin atajos.
+              Ubicados en Guadalajara, Jalisco, nuestra granja es un espacio 
+              donde las gallinas Rhode Island viven en libertad, respiran aire fresco 
+              y se alimentan de forma 100% natural — sin químicos, sin pesticidas, 
+              sin atajos.
             </p>
             <p className="mt-4 text-base md:text-lg font-medium text-slate-500 leading-relaxed">
               Cada huevo que llega a tu mesa es el resultado de un proceso
@@ -106,7 +106,7 @@ export default function Farm() {
                   🌿
                 </motion.span>
                 <p className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">
-                  Parque Montenegro
+                  Nuestra Granja
                 </p>
                 <p className="text-base font-medium text-slate-500 max-w-sm mx-auto">
                   Un entorno natural privilegiado donde nuestras gallinas

@@ -1,12 +1,51 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { MapPin, TreePine, Heart } from "lucide-react";
+
+const pillVariants = {
+  hidden: { opacity: 0, scale: 0.85 },
+  show: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 200, damping: 18, delay: i * 0.1 },
+  }),
+};
+
+const textVariants = {
+  hidden: { opacity: 0, x: -30 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.65, ease: "easeOut" as const } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, x: 40, rotateY: 8 },
+  show: {
+    opacity: 1,
+    x: 0,
+    rotateY: 0,
+    transition: { type: "spring" as const, stiffness: 90, damping: 18, delay: 0.2 },
+  },
+};
+
+const pills = [
+  { icon: MapPin, color: "text-orange-500", label: "Guadalajara, Jalisco" },
+  { icon: TreePine, color: "text-emerald-500", label: "Gallinas en libertad" },
+  { icon: Heart, color: "text-rose-500", label: "Sin químicos" },
+];
 
 export default function Farm() {
   return (
-    <section id="granja" className="py-24 md:py-32 px-6 bg-white">
+    <section id="granja" className="py-24 md:py-32 px-6 bg-white" style={{ perspective: "1200px" }}>
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+
           {/* Text content */}
-          <div>
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={textVariants}
+          >
             <p className="text-sm font-semibold uppercase tracking-widest text-orange-500 mb-3">
               Nuestra Granja
             </p>
@@ -23,32 +62,49 @@ export default function Farm() {
             </p>
             <p className="mt-4 text-base md:text-lg font-medium text-slate-500 leading-relaxed">
               Cada huevo que llega a tu mesa es el resultado de un proceso
-              cuidadoso donde el bienestar animal no es opcional, es el
-              estándar.
+              cuidadoso donde el bienestar animal no es opcional, es el estándar.
             </p>
 
-            {/* Info pills */}
+            {/* Info pills — stagger */}
             <div className="mt-8 flex flex-wrap gap-3">
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 ring-1 ring-slate-100">
-                <MapPin className="h-4 w-4 text-orange-500" />
-                Guadalajara, Jalisco
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 ring-1 ring-slate-100">
-                <TreePine className="h-4 w-4 text-emerald-500" />
-                Gallinas en libertad
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 ring-1 ring-slate-100">
-                <Heart className="h-4 w-4 text-rose-500" />
-                Sin químicos
-              </div>
+              {pills.map((p, i) => (
+                <motion.div
+                  key={p.label}
+                  custom={i}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.5 }}
+                  variants={pillVariants}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 ring-1 ring-slate-100 cursor-default"
+                >
+                  <p.icon className={`h-4 w-4 ${p.color}`} />
+                  {p.label}
+                </motion.div>
+              ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Visual card */}
-          <div className="relative">
+          <motion.div
+            className="relative"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={cardVariants}
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 200, damping: 22 }}
+          >
             <div className="rounded-3xl bg-gradient-to-br from-orange-50 via-amber-50 to-emerald-50 p-10 md:p-14 shadow-sm ring-1 ring-slate-100">
               <div className="text-center">
-                <span className="text-7xl md:text-8xl block mb-6">🌿</span>
+                <motion.span
+                  animate={{ y: [-6, 6, -6] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" as const }}
+                  className="text-7xl md:text-8xl block mb-6 select-none"
+                >
+                  🌿
+                </motion.span>
                 <p className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">
                   Parque Montenegro
                 </p>
@@ -63,10 +119,11 @@ export default function Farm() {
               </div>
             </div>
 
-            {/* Floating accent */}
+            {/* Floating accents */}
             <div className="absolute -top-4 -right-4 h-24 w-24 rounded-3xl bg-orange-500/10 blur-2xl -z-10" />
             <div className="absolute -bottom-4 -left-4 h-32 w-32 rounded-3xl bg-amber-500/10 blur-2xl -z-10" />
-          </div>
+          </motion.div>
+
         </div>
       </div>
     </section>

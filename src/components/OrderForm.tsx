@@ -1,10 +1,32 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { motion } from "framer-motion";
 import { getSupabase } from "@/lib/supabase";
 import { Loader2, CheckCircle, AlertTriangle, Send } from "lucide-react";
 
 type Status = "idle" | "loading" | "success" | "error";
+
+const containerVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
+
+const fieldVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 120, damping: 18 },
+  },
+};
+
+const sectionHeaderVariants = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+};
 
 export default function OrderForm() {
   const [nombre, setNombre] = useState("");
@@ -21,13 +43,7 @@ export default function OrderForm() {
     setErrorMsg("");
 
     const { error } = await getSupabase().from("pedidos").insert([
-      {
-        nombre,
-        telefono,
-        producto,
-        cantidad,
-        direccion,
-      },
+      { nombre, telefono, producto, cantidad, direccion },
     ]);
 
     if (error) {
@@ -47,8 +63,15 @@ export default function OrderForm() {
   return (
     <section id="pedidos" className="py-24 md:py-32 px-6">
       <div className="mx-auto max-w-lg">
+
         {/* Section header */}
-        <div className="text-center mb-12">
+        <motion.div
+          className="text-center mb-12"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.4 }}
+          variants={sectionHeaderVariants}
+        >
           <p className="text-sm font-semibold uppercase tracking-widest text-orange-500 mb-3">
             Pedidos
           </p>
@@ -58,49 +81,52 @@ export default function OrderForm() {
           <p className="mt-3 text-base font-medium text-slate-500">
             Llena el formulario y te contactaremos para confirmar.
           </p>
-        </div>
+        </motion.div>
 
         {/* Success message */}
         {status === "success" && (
-          <div className="mb-8 flex items-start gap-3 rounded-2xl bg-emerald-50 p-5 ring-1 ring-emerald-100">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="mb-8 flex items-start gap-3 rounded-2xl bg-emerald-50 p-5 ring-1 ring-emerald-100"
+          >
             <CheckCircle className="h-5 w-5 text-emerald-600 mt-0.5 shrink-0" />
             <div>
-              <p className="text-sm font-semibold text-emerald-900">
-                ¡Pedido enviado con éxito!
-              </p>
-              <p className="text-sm text-emerald-700 mt-1">
-                Nos pondremos en contacto contigo pronto. 🎉
-              </p>
+              <p className="text-sm font-semibold text-emerald-900">¡Pedido enviado con éxito!</p>
+              <p className="text-sm text-emerald-700 mt-1">Nos pondremos en contacto contigo pronto. 🎉</p>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* Error message */}
         {status === "error" && (
-          <div className="mb-8 flex items-start gap-3 rounded-2xl bg-red-50 p-5 ring-1 ring-red-100">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="mb-8 flex items-start gap-3 rounded-2xl bg-red-50 p-5 ring-1 ring-red-100"
+          >
             <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 shrink-0" />
             <div>
-              <p className="text-sm font-semibold text-red-900">
-                Error al enviar el pedido
-              </p>
-              <p className="text-sm text-red-700 mt-1">
-                {errorMsg || "Algo salió mal. Inténtalo de nuevo."}
-              </p>
+              <p className="text-sm font-semibold text-red-900">Error al enviar el pedido</p>
+              <p className="text-sm text-red-700 mt-1">{errorMsg || "Algo salió mal. Inténtalo de nuevo."}</p>
             </div>
-          </div>
+          </motion.div>
         )}
 
-        {/* Form */}
-        <form
+        {/* Form card */}
+        <motion.form
           onSubmit={handleSubmit}
-          className="space-y-5 rounded-3xl bg-white p-7 sm:p-9 shadow-xl shadow-slate-200/40 ring-1 ring-slate-100"
+          className="rounded-3xl bg-white p-7 sm:p-9 shadow-xl shadow-slate-200/40 ring-1 ring-slate-100"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
         >
           {/* Nombre */}
-          <div>
-            <label
-              htmlFor="nombre"
-              className="block text-sm font-semibold text-slate-900 mb-2"
-            >
+          <motion.div variants={fieldVariants} className="mb-5">
+            <label htmlFor="nombre" className="block text-sm font-semibold text-slate-900 mb-2">
               Nombre completo
             </label>
             <input
@@ -112,14 +138,11 @@ export default function OrderForm() {
               placeholder="Ej: Juan Pérez"
               className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200"
             />
-          </div>
+          </motion.div>
 
           {/* Teléfono */}
-          <div>
-            <label
-              htmlFor="telefono"
-              className="block text-sm font-semibold text-slate-900 mb-2"
-            >
+          <motion.div variants={fieldVariants} className="mb-5">
+            <label htmlFor="telefono" className="block text-sm font-semibold text-slate-900 mb-2">
               Teléfono
             </label>
             <input
@@ -131,14 +154,11 @@ export default function OrderForm() {
               placeholder="Ej: 33 1234 5678"
               className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200"
             />
-          </div>
+          </motion.div>
 
           {/* Producto */}
-          <div>
-            <label
-              htmlFor="producto"
-              className="block text-sm font-semibold text-slate-900 mb-2"
-            >
+          <motion.div variants={fieldVariants} className="mb-5">
+            <label htmlFor="producto" className="block text-sm font-semibold text-slate-900 mb-2">
               Producto
             </label>
             <select
@@ -149,14 +169,11 @@ export default function OrderForm() {
             >
               <option>Caja de 360 huevos</option>
             </select>
-          </div>
+          </motion.div>
 
           {/* Cantidad */}
-          <div>
-            <label
-              htmlFor="cantidad"
-              className="block text-sm font-semibold text-slate-900 mb-2"
-            >
+          <motion.div variants={fieldVariants} className="mb-5">
+            <label htmlFor="cantidad" className="block text-sm font-semibold text-slate-900 mb-2">
               Cantidad de cajas
             </label>
             <input
@@ -168,14 +185,11 @@ export default function OrderForm() {
               onChange={(e) => setCantidad(Number(e.target.value))}
               className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200"
             />
-          </div>
+          </motion.div>
 
           {/* Dirección */}
-          <div>
-            <label
-              htmlFor="direccion"
-              className="block text-sm font-semibold text-slate-900 mb-2"
-            >
+          <motion.div variants={fieldVariants} className="mb-6">
+            <label htmlFor="direccion" className="block text-sm font-semibold text-slate-900 mb-2">
               Dirección de entrega
             </label>
             <textarea
@@ -187,27 +201,32 @@ export default function OrderForm() {
               placeholder="Ej: Av. Vallarta #1234, Col. Americana"
               className="w-full rounded-xl border-0 bg-slate-100 px-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white transition-all duration-200 resize-none"
             />
-          </div>
+          </motion.div>
 
           {/* Submit */}
-          <button
-            type="submit"
-            disabled={status === "loading"}
-            className="w-full flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:from-orange-600 hover:to-amber-600 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-300"
-          >
-            {status === "loading" ? (
-              <>
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Enviando...
-              </>
-            ) : (
-              <>
-                Enviar pedido
-                <Send className="h-4 w-4" />
-              </>
-            )}
-          </button>
-        </form>
+          <motion.div variants={fieldVariants}>
+            <motion.button
+              type="submit"
+              disabled={status === "loading"}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="w-full flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 text-base font-semibold text-white shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:from-orange-600 hover:to-amber-600 disabled:opacity-60 disabled:cursor-not-allowed transition-shadow duration-300"
+            >
+              {status === "loading" ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  Enviar pedido
+                  <Send className="h-4 w-4" />
+                </>
+              )}
+            </motion.button>
+          </motion.div>
+        </motion.form>
       </div>
     </section>
   );

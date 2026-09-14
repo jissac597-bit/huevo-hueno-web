@@ -4,10 +4,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const photos = [
-  { id: 1, src: "/galeria/foto1.jpg", alt: "Nuestra Granja 1" },
-  { id: 2, src: "/galeria/foto2.jpg", alt: "Nuestra Granja 2" },
-  { id: 3, src: "/galeria/foto3.jpg", alt: "Nuestra Granja 3" },
-  { id: 4, src: "/galeria/foto4.jpg", alt: "Nuestra Granja 4" },
+  { id: 1, src: "/galeria/foto1.jpeg", alt: "Nuestra Granja 1" },
+  { id: 2, src: "/galeria/foto2.jpeg", alt: "Nuestra Granja 2" },
+  { id: 3, src: "/galeria/foto3.jpeg", alt: "Nuestra Granja 3" },
+  { id: 4, src: "/galeria/foto4.jpeg", alt: "Nuestra Granja 4" },
+  { id: 5, src: "/galeria/foto5.jpeg", alt: "Nuestra Granja 5" },
+  { id: 6, src: "/galeria/foto6.jpeg", alt: "Nuestra Granja 6" },
+  { id: 7, src: "/galeria/foto7.jpeg", alt: "Nuestra Granja 7" },
 ];
 
 const containerVariants = {

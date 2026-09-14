@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-egg-50: #FFFDF5;
+  --color-egg-100: #FFF8E1;
+  --color-egg-200: #FFECB3;
+  --color-egg-300: #FFE082;
+  --color-egg-400: #FFD54F;
+  --color-egg-500: #FFC107;
+  --color-egg-600: #FFB300;
+  --color-egg-700: #FFA000;
+  --color-orange-400: #FFA726;
+  --color-orange-500: #FF9800;
+  --color-orange-600: #FB8C00;
+  --color-brown-700: #5D4037;
+  --color-brown-800: #4E342E;
+  --color-brown-900: #3E2723;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-egg-50);
+  color: var(--color-brown-800);
+  font-family: Arial, Helvetica, sans-serif;
+}

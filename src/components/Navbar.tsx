@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Egg, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Inicio", href: "#inicio" },
@@ -32,15 +33,17 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4 lg:px-8">
         {/* Logo */}
         <a
-          href="#inicio"
-          className="flex items-center gap-2.5 group"
+          href="/"
+          className="flex items-center group"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-400 shadow-md shadow-orange-500/20 group-hover:shadow-orange-500/40 transition-shadow duration-300">
-            <Egg className="h-5 w-5 text-white" />
-          </div>
-          <span className="font-bold text-lg text-slate-900 tracking-tight">
-            Huevo Hueno
-          </span>
+          <Image
+            src="/logo.jpeg"
+            alt="Logotipo Huevo Hueno"
+            width={50}
+            height={50}
+            className="rounded-full object-cover shadow-md shadow-orange-500/20 group-hover:shadow-orange-500/40 transition-shadow duration-300"
+            priority
+          />
         </a>
 
         {/* Desktop links */}

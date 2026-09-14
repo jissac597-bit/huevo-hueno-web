@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -51,16 +52,21 @@ export default function Hero() {
         Gallinas Rhode Island criadas en libertad
       </motion.div>
 
-      {/* Levitating egg emoji */}
-      <motion.span
+      {/* Levitating logo */}
+      <motion.div
         animate={{ y: [-10, 10, -10] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="text-6xl mb-6 block select-none"
-        role="img"
-        aria-label="huevo"
+        className="mb-8"
       >
-        🥚
-      </motion.span>
+        <Image
+          src="/logo.jpeg"
+          alt="Logotipo Huevo Hueno"
+          width={180}
+          height={180}
+          className="rounded-full shadow-2xl shadow-orange-400/30 object-cover"
+          priority
+        />
+      </motion.div>
 
       {/* Headline — fastest parallax */}
       <motion.h1

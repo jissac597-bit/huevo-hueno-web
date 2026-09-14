@@ -62,8 +62,9 @@ export default function Hero() {
           src="/logo.jpeg"
           alt="Logotipo Huevo Hueno"
           width={180}
-          height={180}
-          className="rounded-full shadow-2xl shadow-orange-400/30 object-cover"
+          height={230}
+          className="shadow-2xl shadow-orange-400/30 object-cover"
+          style={{ borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%" }}
           priority
         />
       </motion.div>

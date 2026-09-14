@@ -39,9 +39,10 @@ export default function Navbar() {
           <Image
             src="/logo.jpeg"
             alt="Logotipo Huevo Hueno"
-            width={50}
-            height={50}
-            className="rounded-full object-cover shadow-md shadow-orange-500/20 group-hover:shadow-orange-500/40 transition-shadow duration-300"
+            width={45}
+            height={55}
+            className="object-cover shadow-md shadow-orange-500/20 group-hover:shadow-orange-500/40 transition-shadow duration-300"
+            style={{ borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%" }}
             priority
           />
         </a>
